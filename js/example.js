@@ -44,35 +44,27 @@ var Harvest = (function () {
 
 		// Floor
 		var floorHeight = 7000;
-		geometry = new THREE.SphereGeometry(floorHeight, 10, 6, 0, (Math.PI * 2), 0, 0.8);
-		geometry.applyMatrix( new THREE.Matrix4().makeTranslation(0, -floorHeight, 0) );
+		geometry = new THREE.BoxGeometry(1000, 10, 1000, 25, 25, 25);
 
-		var material = new THREE.MeshLambertMaterial( );
+		var material = new THREE.MeshNormalMaterial( {flatShading: true, reflectivity: 0, transparent: true, opacity: 0.5} );
 
 		floorMesh = new THREE.Mesh( geometry, material );
 		objects.push( floorMesh );
 		scene.add( floorMesh  );
 
 		// Boxes
-		var boxGeometry = new THREE.BoxGeometry( 20, 20, 20 );
-		var boxTexture1 = new THREE.ImageUtils.loadTexture("img/block1.jpg");
-		var boxTexture2 = new THREE.ImageUtils.loadTexture("img/block2.jpg");
-		var boxTexture3 = new THREE.ImageUtils.loadTexture("img/block3.jpg");
-		var boxTexture4 = new THREE.ImageUtils.loadTexture("img/block4.jpg");
-		var boxMaterial1 = new THREE.MeshBasicMaterial( {map: boxTexture1, reflectivity: 0.8} );
-		var boxMaterial2 = new THREE.MeshBasicMaterial( {map: boxTexture2, reflectivity: 0.8} );
-		var boxMaterial3 = new THREE.MeshBasicMaterial( {map: boxTexture3, reflectivity: 0.8} );
-		var boxMaterial4 = new THREE.MeshBasicMaterial( {map: boxTexture4, reflectivity: 0.8} );
-		var items = [boxMaterial1 ,boxMaterial2, boxMaterial3, boxMaterial4];
+		var boxGeometry = new THREE.BoxGeometry( 25, 25, 25 );
 		var boxZ;
-		for ( var i = 0; i < 850; i ++ ) {
+		for ( var i = 0; i < 10; i ++ ) {
+			
+			var boxmaterial = new THREE.MeshNormalMaterial( {wireframe: true, reflectivity: 0.5} );
 
-			var boxmesh = new THREE.Mesh( boxGeometry, items[Math.floor(Math.random()*items.length)] );
+			var boxmesh = new THREE.Mesh( boxGeometry, boxmaterial );
 
-			boxZ = 50;
-			boxmesh.position.x = Math.floor( Math.random() * 20 - 10 ) * 20;
-			boxmesh.position.y = Math.floor( Math.random() * 20 ) * boxZ + 10;
-			boxmesh.position.z = Math.floor( Math.random() * 20 - 10 ) * 20;
+			boxZ = 0;
+			boxmesh.position.x = Math.floor( Math.random() * 25 ) * 25;
+			//boxmesh.position.y = Math.floor( Math.random() * 20 ) * boxZ + 10;
+			boxmesh.position.z = Math.floor( Math.random() * 25 ) * 25;
 
 			boxes.push( boxmesh );
 			objects.push( boxmesh );
@@ -80,8 +72,8 @@ var Harvest = (function () {
 		}
 
 
-		camera = new THREE.PerspectiveCamera( 80, window.innerWidth / window.innerHeight, 1, 9000 );
-		controls = new THREE.PointerLockControls( camera, 100, 30, true, objects );
+		camera = new THREE.PerspectiveCamera( 80, window.innerWidth / window.innerHeight, 1, 1000 );
+		controls = new THREE.PointerLockControls( camera, 100, 100, true, objects );
 		scene.add( controls.getPlayer() );
 
 		renderer = new THREE.WebGLRenderer({ antialias: true }); //new THREE.WebGLRenderer();
@@ -102,6 +94,25 @@ var Harvest = (function () {
             controls.updateControls();
 
 		}
+
+		var boxGeometry = new THREE.BoxGeometry( 25, 25, 25 );
+		var boxZ;
+		for ( var i = 0; i < 10; i ++ ) {
+			
+			var boxmaterial = new THREE.MeshNormalMaterial( {wireframe: true, reflectivity: 0.5} );
+
+			var boxmesh = new THREE.Mesh( boxGeometry, boxmaterial );
+
+			boxZ = 0;
+			boxmesh.position.x = Math.floor( Math.random() * 25 ) * 25;
+			//boxmesh.position.y = Math.floor( Math.random() * 20 ) * boxZ + 10;
+			boxmesh.position.z = Math.floor( Math.random() * 25 ) * 25;
+
+			boxes.push( boxmesh );
+			objects.push( boxmesh );
+			scene.add( boxmesh );
+		}
+
 		renderer.render( scene, camera );
 
 	}

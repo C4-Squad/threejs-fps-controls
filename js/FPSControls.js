@@ -163,9 +163,9 @@ THREE.PointerLockControls = function ( camera, mass, playerHeight, doubleJump, w
 	scope.baseHeight = 0; // The minimum plane height
 	scope.mass = mass || 100;
 	scope.originalMass = mass;
-	scope.walkingSpeed = 3000; // Higher = slower
-	scope.speed = 900; // Movement speed
-	scope.jumpFactor = 90; // Jump height
+	scope.walkingSpeed = 500; // Higher = slower
+	scope.speed = 1000; // Movement speed
+	scope.jumpFactor = 100; // Jump height
 	scope.velocity = new THREE.Vector3(1, 1, 1);
 
 	scope.jumps = 0;
@@ -250,8 +250,8 @@ THREE.PointerLockControls = function ( camera, mass, playerHeight, doubleJump, w
 
 			if (!crouched && scope.isOnObject) {
 				console.log("Not Crouched");
-				halfHeight = scope.getPlayer().position.y - (playerHeight * 0.2);
-				fullHeight = scope.getPlayer().position.y + (playerHeight * 0.2);
+				halfHeight = scope.getPlayer().position.y - (playerHeight / 2);
+				fullHeight = scope.getPlayer().position.y + (playerHeight / 2);
 			}
 
 			if (scope.crouching && scope.isOnObject) {
@@ -287,15 +287,7 @@ THREE.PointerLockControls = function ( camera, mass, playerHeight, doubleJump, w
 				scope.walking = false;
 				scope.crouching = false;
 
-				if (scope.jumps === 0 && !scope.isBelowObject) {
-					scope.velocity.y += scope.jumpFactor * 2.3;
-					scope.velocity.z *= 2; // Jumping also increases our forward velocity a little
-					scope.jumps = 1;
-				}
-				else if (scope.doubleJump && scope.jumps === 1 && !scope.isOnObject && !scope.isBelowObject) {
-					scope.velocity.y += scope.jumpFactor * 1.5;
-					scope.jumps = 2;
-				}
+				scope.velocity.y += scope.jumpFactor * 2;
 
 			}
 
