@@ -16,6 +16,7 @@ THREE.PointerLockControls = function ( camera, mass, playerHeight, doubleJump, w
 	var yawObject = new THREE.Object3D();
 	yawObject.position.y = playerHeight;
 	yawObject.add( pitchObject );
+	const pointer = new THREE.Vector2();
 
 	var PI_2 = Math.PI / 2;
 
@@ -29,9 +30,17 @@ THREE.PointerLockControls = function ( camera, mass, playerHeight, doubleJump, w
 		yawObject.rotation.y -= movementX * 0.002;
 		pitchObject.rotation.x -= movementY * 0.002;
 
+		pointer.x = ( event.movementX / window.innerWidth ) * 2 - 1;
+		pointer.y = - ( event.movementY / window.innerHeight ) * 2 + 1;
+
+
 		pitchObject.rotation.x = Math.max( - PI_2, Math.min( PI_2, pitchObject.rotation.x ) );
 
 	};
+
+	scope.getPointer = function() {
+		return pointer;
+	}
 
 	scope.dispose = function() {
 
